@@ -1,4 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_project/app_state.dart';
+import 'package:flutter_project/src/services/authentication.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatelessWidget {
   @override
@@ -15,6 +19,14 @@ class HomePage extends StatelessWidget {
         body: Stack(
           children: [
             // Your main content here
+            Consumer<ApplicationState>(
+              builder: (context, appState, _) => AuthFunc(
+                loggedIn: appState.loggedIn,
+                signOut: () {
+                  FirebaseAuth.instance.signOut();
+                },
+              ),
+            ),
             Center(
             child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
