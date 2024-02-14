@@ -1,6 +1,12 @@
 import '/src/models/product.dart';
 import '/src/models/user.dart';
-import '/src/models/status.dart';
+
+enum Status {
+  sold,
+  validatedTechnicalVisit,
+  validatedFinancing,
+  canceled,
+}
 
 class Sale {
   final String _id;
