@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_project/app_state.dart';
 
 class CustomDrawer extends StatelessWidget {
+  final ApplicationState appState;
+
+  CustomDrawer(this.appState);
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
       child: ListView(
         children: [
           UserAccountsDrawerHeader(
-            accountName: Text('John Doe'),
-            accountEmail: Text('johndoe@example.com'),
+              accountName: Text(appState.user?.displayName ?? ""),
+              accountEmail: Text(appState.user?.email ?? ""),
             currentAccountPicture: CircleAvatar(
               backgroundImage: AssetImage('assets/logo.png'),
             ),

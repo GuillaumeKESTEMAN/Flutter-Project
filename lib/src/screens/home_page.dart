@@ -25,7 +25,9 @@ class HomePage extends StatelessWidget {
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
                 ))),
-        drawer: CustomDrawer(),
+        drawer: Consumer<ApplicationState>(
+          builder: (context, appState, _) => CustomDrawer(appState),
+        ),
         body: Stack(
           children: [
             // Your main content here
