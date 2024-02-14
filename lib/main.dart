@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project/app_state.dart';
-import 'package:flutter_project/src/screens/login_page.dart';
 import 'package:flutter_project/src/screens/home_page.dart';
+import 'package:flutter_project/src/screens/signin_page.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -14,18 +15,29 @@ void main() {
 
 }
 
+final _router = GoRouter(
+  routes: [
+    GoRoute(
+      path: '/',
+      builder: (context, state) => HomePage(),
+      routes: [
+        GoRoute(
+          path: 'sign-in',
+          builder: (context, state) => const SignInPage(),
+        ),
+      ],
+    ),
+  ],
+);
+
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'Flutter Demo',
-      initialRoute: '/',
-      routes: {
-        '/': (context) => LoginPage(),
-        '/home': (context) => HomePage(),
-      },
+      routerConfig: _router,
     );
   }
 }
