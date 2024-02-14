@@ -9,7 +9,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  json_annotation: ^4.8.1
 
 dev_dependencies:
   flutter_test:
