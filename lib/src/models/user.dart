@@ -1,7 +1,7 @@
 class User {
-  int _id;
-  int _authId;
-  String _username;
+  final String _id;
+  final String _authId;
+  final String _username;
   String _role;
 
   User(
@@ -11,7 +11,7 @@ class User {
     this._role,
   );
 
-  int get authId => _authId;
+  String get authId => _authId;
   String get username => _username;
   String get role => _role;
 }
