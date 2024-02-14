@@ -50,7 +50,7 @@ class LoginPage extends StatelessWidget {
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                // Add your login logic here
+                Navigator.pushNamed(context, '/home');
               },
               child: Text('Se Connecter'),
             ),
