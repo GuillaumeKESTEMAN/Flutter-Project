@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_project/app_state.dart';
 import 'package:flutter_project/src/screens/login_page.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MainApp());
+  WidgetsFlutterBinding.ensureInitialized();
+
+  runApp(ChangeNotifierProvider(
+    create: (context) => ApplicationState(),
+    builder: ((context, child) => const MainApp()),
+  ));
+
 }
 
 class MainApp extends StatelessWidget {
