@@ -1,8 +1,13 @@
+enum Role {
+  commercial,
+  technician,
+}
+
 class User {
-  int _id;
-  int _authId;
-  String _username;
-  String _role;
+  final String _id;
+  final String _authId;
+  final String _username;
+  final Role _role;
 
   User(
     this._id,
@@ -11,7 +16,7 @@ class User {
     this._role,
   );
 
-  int get authId => _authId;
+  String get authId => _authId;
   String get username => _username;
-  String get role => _role;
+  Role get role => _role;
 }

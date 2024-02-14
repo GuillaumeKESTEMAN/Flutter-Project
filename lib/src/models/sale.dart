@@ -1,14 +1,20 @@
 import '/src/models/product.dart';
 import '/src/models/user.dart';
-import '/src/models/status.dart';
+
+enum Status {
+  sold,
+  validatedTechnicalVisit,
+  validatedFinancing,
+  canceled,
+}
 
 class Sale {
-  int _id;
-  Product _product;
+  final String _id;
+  final Product _product;
   double price;
-  User _user;
+  final User _user;
   Status status;
-  DateTime _createdAt;
+  final DateTime _createdAt;
 
   Sale(
     this._id,
