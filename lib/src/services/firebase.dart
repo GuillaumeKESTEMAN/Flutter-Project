@@ -1,10 +1,22 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_project/src/models/product.dart';
 import 'package:flutter_project/src/models/sale.dart';
 
 class FirebaseService {
-  void getProducts() {
-    // change method return type to Product[]
-    // create ProductDto to correspond to Firestore
-    // convert ProductDto to Product
+  Future<List<Product>> getProducts() async {
+    CollectionReference productsCollection =
+        FirebaseFirestore.instance.collection('products');
+
+    QuerySnapshot querySnapshot = await productsCollection.get();
+    
+    List<Product> products = [];
+    for (final doc in querySnapshot.docs) {
+      Map productMap = doc.data() as Map;
+      products.add(Product(
+          id: doc.id, name: productMap['name'], price: productMap['price']));
+    }
+
+    return products;
   }
 
   void getCurrentUser() {
