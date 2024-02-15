@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project/app_state.dart';
 import 'package:flutter_project/src/widgets/custom_drawer.dart';
+import 'package:flutter_project/src/widgets/last_sales.dart';
+import 'package:flutter_project/src/widgets/salesmen_ranking.dart';
 import 'package:flutter_project/src/widgets/new_sale_popup.dart';
 import 'package:provider/provider.dart';
 
@@ -27,12 +29,24 @@ class HomePage extends StatelessWidget {
           builder: (context, appState, _) => CustomDrawer(appState),
         ),
         body: appState.loggedIn
-            ? Stack(
+            ? SingleChildScrollView(
+              child:
+            Stack(
                 children: [
             Center(
                 child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                Container(
+                  height: 300,
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.black, // Border color
+                      width: 2.0, // Border width
+                    ),
+                  ),
+                  child: LastSalesWidget(),
+                ),
                 SizedBox(height: 20),
                 Container(
                     height: 300,
@@ -42,31 +56,13 @@ class HomePage extends StatelessWidget {
                         width: 2.0, // Border width
                       ),
                     ),
-                    child: Text(
-                      'Placeholder Dernières Ventes',
-                      style: TextStyle(
-                        fontSize: 18,
-                      ),
-                    )),
-                SizedBox(height: 20),
-                Container(
-                    height: 300,
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Colors.black, // Border color
-                        width: 2.0, // Border width
-                      ),
-                    ),
-                    child: Text(
-                      'Placeholder Top 3 Vendeurs',
-                      style: TextStyle(
-                        fontSize: 18,
-                      ),
-                    )),
+                    child: SalesmenRankingWidget()
+                ),
               ],
             )),
           ],
               )
+            )
             : Scaffold(),
       ),
     );
