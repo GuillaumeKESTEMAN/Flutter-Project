@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_project/app_state.dart';
 import 'package:flutter_project/src/screens/home_page.dart';
 import 'package:flutter_project/src/screens/signin_page.dart';
+import 'package:flutter_project/src/screens/salesmen_ranking_page.dart';
 import 'package:flutter_project/src/screens/sales_page.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -26,6 +27,10 @@ final _router = GoRouter(
         GoRoute(
           path: 'sign-in',
           builder: (context, state) => const SignInPage(),
+        ),
+        GoRoute(
+          path: 'salesmen-ranking',
+          builder: (context, state) => SalesmenRankingPage(),
         ),
         GoRoute(
           path: 'sales',
