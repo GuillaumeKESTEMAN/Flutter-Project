@@ -40,7 +40,7 @@ class CustomDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(Icons.groups),
-            title: Text('Top 3 Vendeurs'),
+            title: Text('Classement Vendeurs'),
             onTap: () {
               // Handle settings button tap
             },
