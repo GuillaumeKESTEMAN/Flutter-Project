@@ -17,17 +17,12 @@ class AuthFunc extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(left: 24, bottom: 8),
-          child: OutlinedButton(
-              onPressed: () {
+    return ListTile(
+      leading: !loggedIn ? const Icon(Icons.person) : const Icon(Icons.logout),
+      title: !loggedIn ? const Text('Login') : const Text('Logout'),
+      onTap: () {
                 !loggedIn ? context.push('/sign-in') : signOut();
-              },
-              child: !loggedIn ? const Text('Login') : const Text('Logout')),
-        ),
-      ],
+      },
     );
   }
 }
