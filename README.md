@@ -11,7 +11,7 @@
 - activate firestore database with the following default collections :
     - products: collection of products with the following properties :
         - name: string
-        - price: double
+        - price: integer
     - users: collection of users from authentication manager with the following properties :
         - authId: string (id of user in authentication manager)
         - role: "commercial" || "technician"

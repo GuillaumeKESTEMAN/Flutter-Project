@@ -11,7 +11,7 @@ enum Status {
 class Sale {
   final String _id;
   final Product _product;
-  double price;
+  int price;
   final User _user;
   Status status;
   final DateTime _createdAt;

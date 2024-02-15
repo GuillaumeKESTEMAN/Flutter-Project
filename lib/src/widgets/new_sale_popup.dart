@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_project/app_state.dart';
+import 'package:flutter_project/src/models/dropdown_element.dart';
+import 'package:flutter_project/src/models/product.dart';
+import 'package:provider/provider.dart';
 
 class NewSalePopup extends StatelessWidget {
   final TextEditingController _textEditingController = TextEditingController();
@@ -22,7 +26,10 @@ class NewSalePopup extends StatelessWidget {
       builder: (context) {
         return AlertDialog(
           title: const Text('Enregister une nouvelle vente'),
-          content: NewSaleForm(),
+          content: Consumer<ApplicationState>(
+              builder: (context, appState, _) => NewSaleForm(
+                    appState: appState,
+                  )),
           actions: [
             TextButton(
               onPressed: () {
@@ -50,7 +57,9 @@ class NewSalePopup extends StatelessWidget {
 }
 
 class NewSaleForm extends StatefulWidget {
-  const NewSaleForm({super.key});
+  final ApplicationState appState;
+
+  const NewSaleForm({required this.appState, super.key});
 
   @override
   State<NewSaleForm> createState() => _NewSaleFormState();
@@ -61,11 +70,24 @@ class _NewSaleFormState extends State<NewSaleForm> {
   final _textEditingController = TextEditingController();
 
   int quantity = 0;
-  int price = 1500;
+  int price = 0;
+  Product? selectedProduct;
+  String selectedStatus = '';
+
+  bool priceEditable = false;
+
+  void _validateForm() {
+    print('Quantité: $quantity');
+    print('Prix total: ${quantity * price}');
+    print('Statut sélectionné: $selectedStatus');
+  }
 
   @override
   Widget build(BuildContext context) {
-    print(quantity);
+    List<DropdownElement> productList = widget.appState.products
+        .map((e) => DropdownElement(label: e.name, value: e.id))
+        .toList();
+
     return Form(
       key: _formKey,
       child: Column(
@@ -77,14 +99,35 @@ class _NewSaleFormState extends State<NewSaleForm> {
             ),
           ),
           SizedBox(height: 20),
-          DropdownMenuExample(),
-          TextField(
-            decoration: new InputDecoration(labelText: "Précisez la quantité"),
+          DropdownMenuExample(
+            options: productList,
+            onChanged: (String value) {
+              Product newProduct = widget.appState.products
+                  .firstWhere((element) => element.id == value);
+              setState(() {
+                selectedProduct = newProduct;
+
+                if (selectedProduct != null && quantity > 0) {
+                  price = newProduct.price * quantity;
+                }
+              });
+            },
+          ),
+          TextFormField(
+            decoration: InputDecoration(labelText: "Précisez la quantité"),
             keyboardType: TextInputType.number,
             inputFormatters: <TextInputFormatter>[
               FilteringTextInputFormatter.digitsOnly
             ],
-            onChanged: (value) => quantity = int.parse(value),
+            onChanged: (value) {
+              setState(() {
+                quantity = int.parse(value);
+
+                if (selectedProduct != null && quantity > 0) {
+                  price = selectedProduct!.price * quantity;
+                }
+              });
+            },
           ),
           SizedBox(height: 20),
           Text(
@@ -93,18 +136,25 @@ class _NewSaleFormState extends State<NewSaleForm> {
               fontSize: 18,
             ),
           ),
-          TextField(
-            decoration: new InputDecoration(labelText: "${quantity * price}"),
+          TextFormField(
+            decoration: InputDecoration(labelText: "${price}"),
             keyboardType: TextInputType.number,
             inputFormatters: <TextInputFormatter>[
               FilteringTextInputFormatter.digitsOnly
             ],
-            enabled: enabled,
+            enabled: priceEditable,
           ),
           Row(
             children: [
               Text('Modifier manuellement le prix : '),
-              SwitchExample(),
+              SwitchExample(
+                onChanged: (value) {
+                  setState(() {
+                    // Enable/disable price field based on switch value
+                    priceEditable = value;
+                  });
+                },
+              ),
             ],
           ),
           SizedBox(height: 20),
@@ -115,7 +165,19 @@ class _NewSaleFormState extends State<NewSaleForm> {
             ),
           ),
           SizedBox(height: 20),
-          DropdownMenuExample(),
+          DropdownMenuExample(
+            options: [],
+            onChanged: (value) {
+              setState(() {
+                selectedStatus = value;
+              });
+            },
+          ),
+          SizedBox(height: 20),
+          ElevatedButton(
+            onPressed: _validateForm,
+            child: Text('Valider'),
+          ),
         ],
       ),
     );
@@ -123,53 +185,62 @@ class _NewSaleFormState extends State<NewSaleForm> {
 }
 
 class DropdownMenuExample extends StatefulWidget {
-  const DropdownMenuExample({super.key});
+  final ValueChanged<String>? onChanged;
+  final List<DropdownElement> options;
+
+  const DropdownMenuExample({Key? key, this.onChanged, required this.options})
+      : super(key: key);
 
   @override
   State<DropdownMenuExample> createState() => _DropdownMenuExampleState();
 }
 
-const List<String> list = <String>['One', 'Two', 'Three', 'Four'];
-bool enabled = false;
-
 class _DropdownMenuExampleState extends State<DropdownMenuExample> {
-  String dropdownValue = list.first;
+  String dropdownValue = ''; // Initialisation du produit sélectionné
 
   @override
   Widget build(BuildContext context) {
     return DropdownMenu<String>(
-      initialSelection: list.first,
       onSelected: (String? value) {
-        // This is called when the user selects an item.
         setState(() {
           dropdownValue = value!;
+          if (widget.onChanged != null) {
+            widget.onChanged!(value);
+          }
         });
       },
-      dropdownMenuEntries: list.map<DropdownMenuEntry<String>>((String value) {
-        return DropdownMenuEntry<String>(value: value, label: value);
+      dropdownMenuEntries: widget.options
+          .map<DropdownMenuEntry<String>>((DropdownElement element) {
+        return DropdownMenuEntry<String>(
+            value: element.value, label: element.label);
       }).toList(),
     );
   }
 }
 
 class SwitchExample extends StatefulWidget {
-  const SwitchExample({super.key});
+  final ValueChanged<bool>? onChanged;
+
+  const SwitchExample({Key? key, this.onChanged}) : super(key: key);
 
   @override
   State<SwitchExample> createState() => _SwitchExampleState();
 }
 
 class _SwitchExampleState extends State<SwitchExample> {
+  bool enabled = false; // Ajout de la variable enabled
+
   @override
   Widget build(BuildContext context) {
     return Switch(
-      // This bool value toggles the switch.
       value: enabled,
       activeColor: const Color.fromRGBO(16, 132, 132, 1),
       onChanged: (bool value) {
-        // This is called when the user toggles the switch.
         setState(() {
           enabled = value;
+          if (widget.onChanged != null) {
+            widget.onChanged!(value);
+          }
         });
       },
     );
