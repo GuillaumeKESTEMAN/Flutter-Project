@@ -19,7 +19,8 @@ final _router = GoRouter(
   routes: [
     GoRoute(
       path: '/',
-      builder: (context, state) => HomePage(),
+      builder: (context, state) => Consumer<ApplicationState>(
+          builder: (context, appState, _) => HomePage(appState)),
       routes: [
         GoRoute(
           path: 'sign-in',

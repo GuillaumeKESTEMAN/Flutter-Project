@@ -1,11 +1,13 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_project/app_state.dart';
-import 'package:flutter_project/src/services/authentication.dart';
 import 'package:flutter_project/src/widgets/custom_drawer.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatelessWidget {
+  final ApplicationState appState;
+
+  const HomePage(this.appState, {super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -28,17 +30,9 @@ class HomePage extends StatelessWidget {
         drawer: Consumer<ApplicationState>(
           builder: (context, appState, _) => CustomDrawer(appState),
         ),
-        body: Stack(
-          children: [
-            // Your main content here
-            Consumer<ApplicationState>(
-              builder: (context, appState, _) => AuthFunc(
-                loggedIn: appState.loggedIn,
-                signOut: () {
-                  FirebaseAuth.instance.signOut();
-                },
-              ),
-            ),
+        body: appState.loggedIn
+            ? Stack(
+                children: [
             Center(
                 child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -76,7 +70,8 @@ class HomePage extends StatelessWidget {
               ],
             )),
           ],
-        ),
+              )
+            : Scaffold(),
       ),
     );
   }
