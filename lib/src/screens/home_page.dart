@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_project/app_state.dart';
 import 'package:flutter_project/src/services/authentication.dart';
 import 'package:flutter_project/src/widgets/custom_drawer.dart';
+import 'package:flutter_project/src/widgets/new_sale_popup.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatelessWidget {
@@ -11,12 +12,7 @@ class HomePage extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         backgroundColor: const Color.fromRGBO(16, 132, 132, 1),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            // To add
-          },
-          child: const Icon(Icons.add),
-        ),
+        floatingActionButton: NewSalePopup(),
         appBar: AppBar(
             backgroundColor: const Color.fromRGBO(16, 132, 132, 1),
             centerTitle: true,
