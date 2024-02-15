@@ -28,21 +28,21 @@ class CustomDrawer extends StatelessWidget {
             leading: Icon(Icons.home),
             title: Text('Accueil'),
             onTap: () {
-              // Handle home button tap
+              context.push('/');
             },
           ),
           ListTile(
             leading: Icon(Icons.addchart),
             title: Text('Dernières Ventes'),
             onTap: () {
-              // Handle settings button tap
+              context.push('/sales');
             },
           ),
           ListTile(
             leading: Icon(Icons.groups),
             title: Text('Classement Vendeurs'),
             onTap: () {
-              // Handle settings button tap
+              context.push('/salesmen-ranking');
             },
           ),
           const Divider(),
