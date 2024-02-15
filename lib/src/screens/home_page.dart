@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project/app_state.dart';
 import 'package:flutter_project/src/widgets/custom_drawer.dart';
+import 'package:flutter_project/src/widgets/last_sales.dart';
 import 'package:flutter_project/src/widgets/new_sale_popup.dart';
 import 'package:provider/provider.dart';
 
@@ -35,19 +36,15 @@ class HomePage extends StatelessWidget {
               children: [
                 SizedBox(height: 20),
                 Container(
-                    height: 300,
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Colors.black, // Border color
-                        width: 2.0, // Border width
-                      ),
+                  height: 300,
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.black, // Border color
+                      width: 2.0, // Border width
                     ),
-                    child: Text(
-                      'Placeholder Dernières Ventes',
-                      style: TextStyle(
-                        fontSize: 18,
-                      ),
-                    )),
+                  ),
+                  child: LastSalesWidget(),
+                ),
                 SizedBox(height: 20),
                 Container(
                     height: 300,
